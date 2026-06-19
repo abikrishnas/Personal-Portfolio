@@ -5,10 +5,11 @@ import ScrollReveal from '../components/ScrollReveal';
 import { ScrollAnimatedHeading } from '../components/AnimatedHeading';
 
 const contactLinks = [
-  { label: 'Email', value: 'hello@abikr.design', href: 'mailto:hello@abikr.design' },
-  { label: 'LinkedIn', value: 'linkedin.com/in/abikr', href: '#' },
-  { label: 'GitHub', value: 'github.com/abikr', href: '#' },
-  { label: 'Dribbble', value: 'dribbble.com/abikr', href: '#' },
+  { label: 'Email', value: 'abikrishna.prof@gmail.com', href: 'mailto:abikrishna.prof@gmail.com' },
+  { label: 'LinkedIn', value: 'https://www.linkedin.com/in/abikrishna-s', href: '#' },
+  { label: 'Whatsapp', value: 'https://wa.me/918606313088', href: '#' },
+  { label: 'Instagram', value: 'https://www.instagram.com/just__.abir', href: '#' },
+
 ];
 
 function FloatingField({ id, label, type = 'text', isTextarea = false, value, onChange }) {
