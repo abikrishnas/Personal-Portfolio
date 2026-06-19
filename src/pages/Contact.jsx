@@ -5,10 +5,10 @@ import ScrollReveal from '../components/ScrollReveal';
 import { ScrollAnimatedHeading } from '../components/AnimatedHeading';
 
 const contactLinks = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/abikrishna-s', color: '#4a9eff' },
-  { label: 'Mail', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=abikrishna.prof@gmail.com', color: 'rgba(240,236,228,0.42)' },
-  { label: 'Instagram', href: 'https://www.instagram.com/just__.abi', color: 'rgba(240,236,228,0.42)' },
-  { label: 'Whatsapp', href: 'https://wa.me/918606313088', color: '#ea4c89' },
+  { label: 'Email', buttonText: 'Send Email', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=abikrishna.prof@gmail.com' },
+  { label: 'LinkedIn', buttonText: 'Connect', href: 'https://www.linkedin.com/in/abikrishna-s' },
+  { label: 'WhatsApp', buttonText: 'Chat', href: 'https://wa.me/918606313088' },
+  { label: 'Instagram', buttonText: 'Follow', href: 'https://www.instagram.com/just__.abi' },
 ];
 
 function FloatingField({ id, label, type = 'text', isTextarea = false, value, onChange }) {
@@ -117,8 +117,8 @@ export default function Contact() {
                 Reach Out
               </p>
               <div>
-                {contactLinks.map(({ label, value, href }) => (
-                  <ContactRow key={label} label={label} value={value} href={href} />
+                {contactLinks.map(({ label, buttonText, href }) => (
+                  <ContactRow key={label} label={label} buttonText={buttonText} href={href} />
                 ))}
               </div>
 
@@ -211,29 +211,59 @@ export default function Contact() {
   );
 }
 
-function ContactRow({ label, value, href }) {
+function ContactRow({ label, buttonText, href }) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <a
-      href={href}
-      target={href.startsWith('http') ? '_blank' : undefined}
-      rel="noopener noreferrer"
-      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBlock: '1.25rem', borderBottom: '1px solid rgba(240,236,228,0.08)', textDecoration: 'none', transition: 'background 0.15s' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingBlock: '1.25rem',
+        borderBottom: '1px solid rgba(240,236,228,0.08)',
+      }}
     >
-      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a8680' }}>{label}</p>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.9375rem', color: hovered ? '#f0ece4' : '#c9c5be', transition: 'color 0.15s' }}>{value}</p>
+      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a8680' }}>
+        {label}
+      </p>
+      
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.35rem',
+          borderRadius: '999px',
+          padding: '0.5rem 1.25rem',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '0.75rem',
+          fontWeight: 500,
+          letterSpacing: '0.06em',
+          textTransform: 'uppercase',
+          textDecoration: 'none',
+          background: hovered ? '#f0ece4' : 'rgba(255, 255, 255, 0.05)',
+          color: hovered ? '#0c0c0c' : '#c9c5be',
+          border: hovered ? '1px solid #f0ece4' : '1px solid rgba(255,255,255,0.08)',
+          boxShadow: hovered ? '0 4px 12px rgba(240,236,228,0.1)' : 'none',
+          transform: hovered ? 'translateY(-1px)' : 'translateY(0)',
+          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+          cursor: 'pointer',
+        }}
+      >
+        <span>{buttonText}</span>
         <motion.span
-          animate={{ x: hovered ? 4 : 0, opacity: hovered ? 1 : 0.4 }}
+          animate={{ x: hovered ? 2 : 0, y: hovered ? -2 : 0 }}
           transition={{ duration: 0.2 }}
-          style={{ color: '#8a8680', fontSize: '1rem' }}
+          style={{ fontSize: '0.75rem' }}
         >
-          →
+          ↗
         </motion.span>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 }
