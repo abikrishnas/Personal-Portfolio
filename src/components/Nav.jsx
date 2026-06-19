@@ -149,7 +149,7 @@ export default function Nav() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', pointerEvents: 'auto' }}>
             {!isMobile && (
               <a
-                href="/mockup-resume.pdf"
+                href="/ABIKRISHNA S.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
