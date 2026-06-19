@@ -267,7 +267,7 @@ export default function Nav() {
               style={{ marginTop: '2.5rem' }}
             >
               <a
-                href="/mockup-resume.pdf"
+                href="/ABIKRISHNA S.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
