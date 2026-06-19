@@ -149,7 +149,7 @@ export default function Nav() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', pointerEvents: 'auto' }}>
             {!isMobile && (
               <a
-                href="/ABIKRISHNA S.pdf"
+                href="/images/ABIKRISHNA S.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -267,7 +267,7 @@ export default function Nav() {
               style={{ marginTop: '2.5rem' }}
             >
               <a
-                href="/ABIKRISHNA S.pdf"
+                href="/images/ABIKRISHNA S.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
