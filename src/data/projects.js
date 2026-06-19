@@ -150,9 +150,9 @@ export const projects = [
   },
   {
     id: 6,
-    slug: 'LetMeGo0',
+    slug: 'LetMeGoo',
     figmaUrl: 'https://www.figma.com/design/guuLo3hmFoRH2E8xByM2LM/LET-ME-GOO?node-id=0-1&t=TMkAfqWsyKpkyy1J-1',
-    title: 'LetMeGroo',
+    title: 'LetMeGoo',
     category: 'Mobile App UI Design',
     year: '2025',
     Engagement: 'Freelance',
