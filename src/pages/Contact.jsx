@@ -11,7 +11,7 @@ const contactLinks = [
   { label: 'Instagram', buttonText: 'Follow', href: 'https://www.instagram.com/just__.abi' },
 ];
 
-function FloatingField({ id, label, type = 'text', isTextarea = false, value, onChange }) {
+function FloatingField({ id, label, type = 'text', isTextarea = false, value, onChange, required = true }) {
   const hasValue = value.length > 0;
 
   return (
@@ -21,6 +21,7 @@ function FloatingField({ id, label, type = 'text', isTextarea = false, value, on
           id={id}
           value={value}
           onChange={onChange}
+          required={required}
           rows={5}
           style={{
             width: '100%',
@@ -40,6 +41,7 @@ function FloatingField({ id, label, type = 'text', isTextarea = false, value, on
           type={type}
           value={value}
           onChange={onChange}
+          required={required}
           style={{
             width: '100%',
             background: 'none',
@@ -61,14 +63,53 @@ function FloatingField({ id, label, type = 'text', isTextarea = false, value, on
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (field) => (e) => {
     setFormData(v => ({ ...v, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setError(null);
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setError("Web3Forms Access Key is not configured. Please add VITE_WEB3FORMS_ACCESS_KEY to your .env file.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          subject: `New Message from ${formData.name} via Portfolio`
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setError(result.message || "Failed to send message. Please try again later.");
+      }
+    } catch (err) {
+      console.error("Error sending contact form message:", err);
+      setError("An error occurred while sending the message. Please check your internet connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -179,6 +220,7 @@ export default function Contact() {
                   <div style={{ marginTop: '2.5rem' }}>
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -194,13 +236,30 @@ export default function Contact() {
                         letterSpacing: '0.05em',
                         textTransform: 'uppercase',
                         transition: 'background 0.2s',
+                        opacity: isSubmitting ? 0.7 : 1,
+                        cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       }}
-                      onMouseEnter={e => e.currentTarget.style.background = '#e0dcd4'}
-                      onMouseLeave={e => e.currentTarget.style.background = '#f0ece4'}
+                      onMouseEnter={e => {
+                        if (!isSubmitting) e.currentTarget.style.background = '#e0dcd4';
+                      }}
+                      onMouseLeave={e => {
+                        if (!isSubmitting) e.currentTarget.style.background = '#f0ece4';
+                      }}
                     >
-                      Send Message
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </button>
                   </div>
+                  {error && (
+                    <p style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '0.875rem',
+                      color: '#ef4444',
+                      marginTop: '1.25rem',
+                      lineHeight: 1.5,
+                    }}>
+                      {error}
+                    </p>
+                  )}
                 </form>
               )}
             </div>
